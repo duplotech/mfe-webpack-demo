@@ -9,7 +9,15 @@ module.exports = {
   devtool: "source-map",
 
   optimization: {
-    minimize: false
+    minimize: false,
+    // See `react-scripts#webpack.config.js`: https://github.com/facebook/create-react-app/blob/edc671eeea6b7d26ac3f1eb2050e50f75cf9ad5d/packages/react-scripts/config/webpack.config.js#L277-L282
+    //
+    // Keep the runtime chunk separated to enable long term caching
+    // https://twitter.com/wSokra/status/969679223278505985
+    // https://github.com/facebook/create-react-app/issues/5358
+    runtimeChunk: {
+      name: entrypoint => `runtime-${entrypoint.name}`
+    }
   },
 
   output: {
@@ -41,9 +49,9 @@ module.exports = {
         Dialog: "./src/Dialog"
       },
       remotes: {
-        app_one: "app_one",
+        app_one: "app_one"
       },
-      shared: ["react", "react-dom","react-router-dom"]
+      shared: ["react", "react-dom", "react-router-dom"]
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
