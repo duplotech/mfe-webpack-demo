@@ -2,7 +2,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
-  entry: "./src/index",
+  entry: {
+    remote: "./src/public-path",
+    main: "./src/index"
+  },
   cache: false,
 
   mode: "development",
@@ -34,7 +37,7 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "app_two",
+      name: "remote",
       library: { type: "var", name: "app_two" },
       filename: "remoteEntry.js",
       exposes: {
